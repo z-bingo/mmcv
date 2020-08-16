@@ -55,7 +55,9 @@ class CheckpointHook(Hook):
         if self.max_keep_ckpts > 0:
             filename_tmpl = self.args.get('filename_tmpl', 'epoch_{}.pth')
             current_epoch = runner.epoch + 1
-            for epoch in range(current_epoch - self.max_keep_ckpts, 0, -1):
+            for epoch in range(
+                    current_epoch - self.interval * self.max_keep_ckpts, 0,
+                    -self.interval):
                 ckpt_path = os.path.join(self.out_dir,
                                          filename_tmpl.format(epoch))
                 if os.path.exists(ckpt_path):
